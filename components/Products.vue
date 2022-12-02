@@ -25,11 +25,37 @@ const runTimeConFig = useRuntimeConfig();
     }).then(res => res.json).then(data => products.value = data)
 })*/
 
-const { data: products, error } = await useFetch(`${runTimeConFig.public.baseUrl }/products?size=10&search_keyword=Web+app+with`, {
+/*const page = ref(1)
+
+const { data: products, error, refresh, pending } = await useFetch(() => `/products?size=3&page=${page.value}`, {
+
     headers: {
         Authorization: `Bearer ${ runTimeConFig.public.appSecret }`
-    }
+    },
+
+    baseURL: runTimeConFig.public.baseUrl
 })
+
+function fetchNew() {
+    page.value ++;
+    refresh();
+}*/
+
+const page = ref(1)
+
+const { data: products, error, refresh, prending } = await useAsyncData('products', () => {
+//some code before api call
+    return $fetch(`${runTimeConFig.public.baseUrl}/products?size=3&page=${page.value}`, {
+        headers: {
+            Authorization: `Bearer ${ runTimeConFig.public.appSecret }`
+        }   
+    })
+})
+
+function fetchNew() {
+    page.value ++;
+    refresh();
+}
 
 </script>
 
