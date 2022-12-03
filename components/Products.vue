@@ -41,16 +41,32 @@ function fetchNew() {
     refresh();
 }*/
 
-const page = ref(1)
-
+/*const page = ref(1)
 const { data: products, error, refresh, prending } = await useAsyncData('products', () => {
-//some code before api call
+//some code
     return $fetch(`${runTimeConFig.public.baseUrl}/products?size=3&page=${page.value}`, {
         headers: {
             Authorization: `Bearer ${ runTimeConFig.public.appSecret }`
         }   
     })
 })
+
+function fetchNew() {
+    page.value ++;
+    refresh();
+}*/
+
+const { data: products, error, refresh, prending } = await useAsyncData('products', () => {
+//some code before api call
+    return $fetch('/api/products', {
+        /*headers: {
+            Authorization: `Bearer ${ runTimeConFig.public.appSecret }`
+        }   */
+        method: 'post'
+    })
+})
+
+console.log(error)
 
 function fetchNew() {
     page.value ++;
